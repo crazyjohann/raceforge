@@ -1,0 +1,214 @@
+.leaderboardContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #ff6b00;
+}
+
+.backButton {
+  background: transparent;
+  border: 2px solid #666;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.backButton:hover {
+  border-color: #ff6b00;
+  color: #ff6b00;
+  transform: translateX(-5px);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0;
+  color: #ff6b00;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.trackSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.trackButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #333;
+  color: #aaa;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trackButton:hover {
+  border-color: #ff6b00;
+  color: white;
+}
+
+.trackButton.active {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
+  border-color: #ffa500;
+  color: white;
+}
+
+.trackInfo {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #333;
+}
+
+.trackInfo h3 {
+  margin: 0 0 0.5rem 0;
+  color: #ff6b00;
+  font-size: 1.5rem;
+}
+
+.trackInfo p {
+  margin: 0 0 1rem 0;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.trackStats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.trackStats span {
+  color: white;
+  font-weight: 600;
+}
+
+.tableContainer {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboardTable thead {
+  background: rgba(255, 107, 0, 0.2);
+}
+
+.leaderboardTable th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ff6b00;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #ff6b00;
+}
+
+.leaderboardTable td {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.leaderboardTable tbody tr {
+  transition: background 0.2s ease;
+}
+
+.leaderboardTable tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.topThree {
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.rank {
+  font-size: 1.3rem;
+  font-weight: 700;
+  width: 80px;
+  text-align: center;
+}
+
+.time {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff6b00;
+  font-family: 'Courier New', monospace;
+}
+
+.car {
+  color: #aaa;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.noData {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.noData p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.noData p:first-child {
+  font-size: 1.3rem;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .leaderboardTable {
+    font-size: 0.9rem;
+  }
+  
+  .leaderboardTable th,
+  .leaderboardTable td {
+    padding: 0.7rem 0.5rem;
+  }
+  
+  .trackStats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

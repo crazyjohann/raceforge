@@ -1,0 +1,227 @@
+.selectorContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #ff6b00;
+}
+
+.backButton {
+  background: transparent;
+  border: 2px solid #666;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.backButton:hover {
+  border-color: #ff6b00;
+  color: #ff6b00;
+  transform: translateX(-5px);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0;
+  color: #ff6b00;
+}
+
+.counter {
+  font-size: 1.2rem;
+  color: #aaa;
+  min-width: 80px;
+  text-align: right;
+}
+
+.mainContent {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.carPreview {
+  flex: 1.5;
+  position: relative;
+  background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 100%);
+  border-right: 2px solid #333;
+}
+
+.loadingText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.carInfo {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.carHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ff6b00;
+}
+
+.carName {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.carYear {
+  font-size: 1.2rem;
+  color: #ff6b00;
+  font-weight: 600;
+}
+
+.carDescription {
+  color: #aaa;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.statsContainer {
+  margin-bottom: 2rem;
+}
+
+.statItem {
+  margin-bottom: 1.5rem;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.statBar {
+  width: 100%;
+  height: 8px;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+}
+
+.statFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b00 0%, #ffa500 100%);
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ff6b00;
+}
+
+.selectedCarInfo {
+  background: rgba(255, 107, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #ff6b00;
+}
+
+.selectedCarInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #ff6b00;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.selectedCarInfo p {
+  margin: 0;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.navigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.navButton {
+  flex: 1;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5298 100%);
+  border: 2px solid #3d6cb9;
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.navButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(61, 108, 185, 0.5);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.selectButton {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
+  border-color: #ffa500;
+  flex: 1.5;
+}
+
+.selectButton:hover {
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .mainContent {
+    flex-direction: column;
+  }
+  
+  .carPreview {
+    height: 50vh;
+    border-right: none;
+    border-bottom: 2px solid #333;
+  }
+  
+  .navigation {
+    flex-direction: column;
+  }
+}
