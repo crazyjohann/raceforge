@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/src/assets/(.*)", "destination": "/assets/$1" }
+  ]
+}
