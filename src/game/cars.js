@@ -1,125 +1,81 @@
-// Car data configuration for RaceForge
-// Each car has unique stats and references its 3D model
+import React, { useRef, useEffect } from 'react';
+import { useGLTF } from '@react-three/drei';
+import { useBox } from '@react-three/cannon';
+import { useFrame } from '@react-three/fiber';
+import useInput from './input/useInput';
 
-export const cars = [
-  {
-    id: 1,
-    name: "Corvette Grand Sport '62",
-    model: "/src/assets/cars/car1.glb",
-    speed: 85,
-    acceleration: 78,
-    handling: 82,
-    weight: 1100,
-    description: "Classic American muscle with legendary racing heritage",
-    year: 1962
-  },
-  {
-    id: 2,
-    name: "Shelby Cobra Daytona '65",
-    model: "/src/assets/cars/car2.glb",
-    speed: 92,
-    acceleration: 85,
-    handling: 88,
-    weight: 1050,
-    description: "Iconic Le Mans winner with aerodynamic excellence",
-    year: 1965
-  },
-  {
-    id: 3,
-    name: "Porsche 917K '70",
-    model: "/src/assets/cars/car3.glb",
-    speed: 95,
-    acceleration: 90,
-    handling: 92,
-    weight: 800,
-    description: "Legendary endurance racer with unmatched performance",
-    year: 1970
-  },
-  {
-    id: 4,
-    name: "BMW 3.0 CSL '75",
-    model: "/src/assets/cars/car4.glb",
-    speed: 80,
-    acceleration: 75,
-    handling: 85,
-    weight: 1150,
-    description: "The Batmobile - touring car racing icon",
-    year: 1975
-  },
-  {
-    id: 5,
-    name: "Mercedes CLK LM '98",
-    model: "/src/assets/cars/car5.glb",
-    speed: 94,
-    acceleration: 88,
-    handling: 90,
-    weight: 900,
-    description: "GT1 monster with cutting-edge aerodynamics",
-    year: 1998
-  },
-  {
-    id: 6,
-    name: "Audi R15 TDI '09",
-    model: "/src/assets/cars/car6.glb",
-    speed: 96,
-    acceleration: 92,
-    handling: 94,
-    weight: 900,
-    description: "Diesel-powered Le Mans dominator",
-    year: 2009
-  },
-  {
-    id: 7,
-    name: "BMW Z4 GT3 '10",
-    model: "/src/assets/cars/car7.glb",
-    speed: 88,
-    acceleration: 82,
-    handling: 90,
-    weight: 1200,
-    description: "Modern GT3 racer with balanced performance",
-    year: 2010
-  },
-  {
-    id: 8,
-    name: "Corvette C6.R '10",
-    model: "/src/assets/cars/car8.glb",
-    speed: 90,
-    acceleration: 85,
-    handling: 87,
-    weight: 1100,
-    description: "American GT racing powerhouse",
-    year: 2010
-  },
-  {
-    id: 9,
-    name: "BMW M2 Competition '18",
-    model: "/src/assets/cars/car9.glb",
-    speed: 82,
-    acceleration: 80,
-    handling: 88,
-    weight: 1550,
-    description: "Compact performance with razor-sharp handling",
-    year: 2018
-  },
-  {
-    id: 10,
-    name: "BMW M4 GT4 '18",
-    model: "/src/assets/cars/car10.glb",
-    speed: 86,
-    acceleration: 83,
-    handling: 91,
-    weight: 1400,
-    description: "Modern GT4 racer built for competition",
-    year: 2018
-  }
-];
+// list all 10 car models (adjust filenames to your actual files)
+const ALL_CARS = Array.from({length:10}).map((_,i)=>`/assets/cars/car${i+1}.glb`);
 
-// Helper function to get car by ID
-export const getCarById = (id) => {
-  return cars.find(car => car.id === id);
-};
+export default function Cars() {
+  // spawn a few cars - main player car is index 0
+  return (
+    <>
+      <Car modelPath={ALL_CARS[0]} isPlayer position={[0, 0.8, 0]} />
+      {/* spawn NPCs as examples */}
+      <Car modelPath={ALL_CARS[1]} position={[2, 0.8, -6]} />
+      <Car modelPath={ALL_CARS[2]} position={[-2, 0.8, -12]} />
+    </>
+  );
+}
 
-// Helper function to get all cars
-export const getAllCars = () => {
-  return cars;
-};
+function Car({ modelPath, position=[0,0.8,0], isPlayer=false }) {
+  const gltf = useGLTF(modelPath);
+  const ref = useRef();
+  // physics body (box) roughly matching car footprint
+  const [bodyRef, api] = useBox(() => ({
+    mass: isPlayer ? 1200 : 900,
+    position,
+    args: [1.2, 0.5, 2.5],
+    linearDamping: 0.5,
+    angularDamping: 0.9,
+    allowSleep: false
+  }));
+
+  // orient model correctly: flip if backwards
+  useEffect(() => {
+    if (gltf && gltf.scene) {
+      // ensure scene pivot is centered
+      gltf.scene.rotation.set(0, Math.PI, 0); // faces forward
+      // if model origin is not centered vertically, offset it slightly
+      gltf.scene.position.set(0, -0.5, 0);
+    }
+  }, [gltf]);
+
+  // simple player control applying forward force & steering
+  const input = useInput();
+  useFrame(() => {
+    if (!isPlayer) return;
+    // small forward push
+    if (input.forward) {
+      api.applyLocalForce([0, 0, -500], [0, 0, 0]);
+    }
+    // reverse
+    if (input.back) api.applyLocalForce([0, 0, 300], [0, 0, 0]);
+    // steering: apply torque for yaw
+    if (input.left) api.applyLocalTorque([0, 0.8, 0]);
+    if (input.right) api.applyLocalTorque([0, -0.8, 0]);
+  });
+
+  // sync three object with physics body
+  useFrame(() => {
+    if (!ref.current || !bodyRef.current) return;
+    // physics body position
+    const pos = bodyRef.current.position;
+    const rot = bodyRef.current.quaternion;
+    ref.current.position.set(pos.x, pos.y, pos.z);
+    ref.current.quaternion.set(rot.x, rot.y, rot.z, rot.w);
+  });
+
+  return (
+    <group ref={ref}>
+      <mesh ref={bodyRef} visible={false} />
+      <primitive
+        object={gltf.scene.clone()}
+        scale={[1.0,1.0,1.0]}
+        castShadow
+        receiveShadow
+      />
+    </group>
+  );
+}
